@@ -3,7 +3,6 @@
 
   [![NuGet](https://img.shields.io/nuget/v/Biplov.Serilog.svg)](https://www.nuget.org/packages/Biplov.Serilog/)
   [![Downloads](https://img.shields.io/nuget/dt/Biplov.Serilog?color=brightgreen.svg)](https://www.nuget.org/packages/Biplov.Serilog/)
-  [![Stars](https://img.shields.io/github/stars/dotnet/BenchmarkDotNet?color=brightgreen)](https://github.com/biplovkc/serilog-logging/stargazers)
   [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE.md)
 
 </h3>
