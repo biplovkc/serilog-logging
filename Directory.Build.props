@@ -1,0 +1,12 @@
+<Project>
+  <PropertyGroup>
+    <Owners>Biplov KC</Owners>
+    <RepositoryUrl>https://github.com/biplovkc/serilog-logging</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/biplovkc/serilog-logging</PackageProjectUrl>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.Github" Version="1.1.1" PrivateAssets="all" />
+  </ItemGroup>
+</Project>
