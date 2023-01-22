@@ -36,7 +36,7 @@ jobs:
           fi
 
       - name: run dotNet restore
-        run: dotnet restore AyatDigitalApi.sln
+        run: dotnet restore Biplov.Serilog.sln
 
       - name: run dotnet outdated
         id: outdated
