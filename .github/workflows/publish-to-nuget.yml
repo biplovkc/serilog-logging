@@ -1,0 +1,65 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+    
+jobs:
+  build:
+    env:
+      BUILD_CONFIG: 'Release'
+      SOLUTION: 'Biplov.Serilog.sln'
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup Dotnet
+        uses: actions/setup-dotnet@v2
+        with:
+          dotnet-version: '6.0.x'
+
+      - name: Checkout Code
+        uses: actions/checkout@v3
+        with: 
+          submodule: recursive
+          fetch-depth: 0
+    
+      - name: Install GitVersion
+        uses: gittools/actions/gitversion/setup@v0.9.7
+        with:
+          versionSpec: '5.x'
+      
+      - name: Determine Version
+        uses: gittools/actions/gitversion/execute@v0.9.7
+        id: gitversion
+        with:
+          useConfigFile: true
+
+      - name: Display SemVer
+        run: |
+          echo "SemVer: ${{ steps.gitversion.outputs.semVer }}"
+      - uses: actions/checkout@v2
+     
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v1.0.5
+
+      - name: Restore dependencies
+        run: nuget restore $SOLUTION
+
+      - name: Build
+        run: dotnet build $SOLUTION --configuration $BUILD_CONFIG -p:Version=${{ steps.gitversion.outputs.semVer }} --no-restore
+
+      - name: Publish
+        run: nuget push **\*.nupkg -Source 'https://api.nuget.org/v3/index.json' -ApiKey ${{secrets.NUGET_API_KEY}}
+
+      - name: Create tag
+        uses: actions/github-script@v5
+        with:
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/${{ steps.gitversion.outputs.semVer }}',
+              sha: context.sha
+            })
