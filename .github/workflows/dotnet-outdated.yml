@@ -1,0 +1,72 @@
+name: Outdated libraries
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 6 * * 1" #6am every monday
+  
+jobs:
+  outdated:
+    name: update outdated packages
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: checkout code
+        uses: actions/checkout@v2
+
+      - name: setup dotnet
+        uses: actions/setup-dotnet@v1
+
+      - name: install dotnet-outdated
+        run: |
+          dotnet tool install --global dotnet-outdated-tool
+          dotnet tool update --global dotnet-outdated-tool
+
+      - name: checkout new branch
+        id: checkout
+        run: |
+          if git ls-remote --exit-code --heads origin dotnet-outdated ; then
+            git fetch
+            git checkout dotnet-outdated
+            git pull
+            echo "::set-output name=new_branch::no"
+          else
+            git checkout -b dotnet-outdated
+            echo "::set-outuput name=new_branch::yes"
+          fi
+
+      - name: run dotNet restore
+        run: dotnet restore AyatDigitalApi.sln
+
+      - name: run dotnet outdated
+        id: outdated
+        run: |
+          if dotnet outdated -u -f -vl major -exc BenchmarkDotNet -exc xunit.runner.visualstudio -exec Moq; then
+            echo "::set-output name=has_changes::no"
+          else
+            echo "::set_output name=has_changes::yes"
+          fi
+
+      - name: commit and push changes
+        run: |
+          if [ "${{ steps.outdated.outputs.has_changes }}" = "no" ] ; then
+            echo "No updates today"
+          else
+            git config --local user.email "action@github.com"
+            git config --local user.name "Github Action"
+            git add .
+            git commit -m 'dotnet-outdated updates - minor and patch'
+            git push --set-upstream origin dotnet-outdated
+          fi
+      - name: create pr
+        run: |
+          if [ "${{ steps.outdated.outputs.has_changes }}" = "no" ]; then
+            echo "No updates today"
+          else
+            if [ "${{ steps.checkout.outputs.new_branch }}" = "yes" ]; then
+              curl --request POST \
+              --url https://api.github.com/repos/${{ github.repository }}/pulls \
+              --header 'authorization: Bearer ${{ secrets.GITHUB_TOKEN }}' \
+              --data '{ "title": "dotnet-outdated updates", "body": "Minor and Patch package updates", "head": "dotnet-outdated", "base": "main"}'
+            fi
+          fi
