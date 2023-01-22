@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+	<PropertyGroup>
+		<Authors>Biplov KC</Authors>
+		<OutputType>Library</OutputType>
+		<PackageId>Biplov.Serilog</PackageId>
+		<PackageProjectUrl>https://github.com/biplovkc/event-bus-rabbitmq</PackageProjectUrl>
+		<PackageTags>Biplov;BiplovKC;Serilog;Logging;</PackageTags>
+		<AssemblyName>Biplov.Serilog</AssemblyName>
+		<RootNameSpace>Biplov.Serilog</RootNameSpace>
+		<TargetFramework>net6.0</TargetFramework>
+		<Description>Registers serilog with custom correlationid middleware and httpcontext extensions</Description>
+		<LangVersion>latest</LangVersion>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<PackageLicenseFile>LICENSE</PackageLicenseFile>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\LICENSE" Pack="true" PackagePath=""/>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="murmurhash" Version="1.0.3" />
+		<PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
+		<PackageReference Include="Serilog.Enrichers.AssemblyName" Version="1.0.9" />
+		<PackageReference Include="Serilog.Enrichers.Context" Version="4.6.0" />
+		<PackageReference Include="Serilog.Enrichers.Environment" Version="2.2.0" />
+		<PackageReference Include="Serilog.Enrichers.Span" Version="3.1.0" />
+		<PackageReference Include="Serilog.Expressions" Version="3.4.1" />
+		<PackageReference Include="Serilog.Settings.Configuration" Version="3.4.0" />
+		<PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
+	</ItemGroup>
+
+</Project>
