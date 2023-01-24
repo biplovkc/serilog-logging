@@ -1,0 +1,25 @@
+version: '3.4'
+
+services:
+  serilog.logging:
+    image: ${DOCKER_REGISTRY-}seriloglogging
+    build:
+      context: .
+      dockerfile: Biplov.Serilog.WebAPI/Dockerfile
+    ports:
+      - "5000:80"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://0.0.0.0:80
+      - Serilog__WriteTo__0__Args__serverUrl=http://host.docker.internal:5341
+      - Serilog__WriteTo__0__Args__apiKey=""
+    depends_on:
+      - seq
+
+  seq:
+    image: datalust/seq:latest
+    container_name: seq
+    ports:
+      - "5341:80"
+    environment:
+      - ACCEPT_EULA=Y

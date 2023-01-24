@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biplov.Serilog", "src\Biplov.Serilog.csproj", "{79A5D1DA-1CD1-44C9-AB18-111727894246}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Biplov.Serilog", "src\Biplov.Serilog.csproj", "{79A5D1DA-1CD1-44C9-AB18-111727894246}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "example-project", "example-project", "{665EAFB2-6EA5-45E4-AD51-C67BF5C1B7D0}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Biplov.Serilog.WebAPI", "example\Biplov.Serilog.WebAPI\Biplov.Serilog.WebAPI.csproj", "{4C970E53-168B-4CE4-BB16-2178A13C967E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,9 +19,16 @@ Global
 		{79A5D1DA-1CD1-44C9-AB18-111727894246}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79A5D1DA-1CD1-44C9-AB18-111727894246}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{79A5D1DA-1CD1-44C9-AB18-111727894246}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4C970E53-168B-4CE4-BB16-2178A13C967E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C970E53-168B-4CE4-BB16-2178A13C967E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4C970E53-168B-4CE4-BB16-2178A13C967E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4C970E53-168B-4CE4-BB16-2178A13C967E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4C970E53-168B-4CE4-BB16-2178A13C967E} = {665EAFB2-6EA5-45E4-AD51-C67BF5C1B7D0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {69F48098-CC73-47EF-BB1A-491AC79D0DFA}
