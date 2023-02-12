@@ -18,7 +18,9 @@ public static class HttpContextEnricher
             Route = httpContext.Features.Get<IEndpointFeature>()?.Endpoint?.Metadata
                 .GetMetadata<RouteNameMetadata>()?.RouteName
         };
-
+        var userAgent = httpContext.Request.Headers?.FirstOrDefault(s => "user-agent".Equals(s.Key, StringComparison.OrdinalIgnoreCase)).Value;
+        httpContextInfo.UserAgent = userAgent is not null ? userAgent.ToString() : "";
+        
         diagnosticContext.Set("HttpContext", httpContextInfo, true);
     }
 
