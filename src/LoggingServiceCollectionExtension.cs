@@ -2,11 +2,15 @@
 
 public static class LoggingServiceCollectionExtension
 {
-    public static IServiceCollection RegisterSerilogLogger(this IServiceCollection services, IConfiguration configuration, string version, params string[] pathsToExclude)
+    public static IServiceCollection RegisterSerilogLogger(this IServiceCollection services, IConfiguration configuration, string version, Dictionary<string, LoggingLevelSwitch> overrides = null, params string[] pathsToExclude)
     {
         var loggerConfig = new LoggerConfiguration()
             .ReadFrom.Configuration(configuration);
 
+        foreach(var overRide in overrides)
+        {
+            loggerConfig.MinimumLevel.Override(overRide.Key, overRide.Value);
+        }
         var logger = loggerConfig
             .Enrich.FromLogContext()
             .Enrich.WithAssemblyName()
