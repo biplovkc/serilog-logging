@@ -15,3 +15,4 @@ global using Serilog.Context;
 global using Serilog.Core;
 global using Serilog.Enrichers.Span;
 global using Serilog.Events;
+global using System.Collections.Generic;
