@@ -2,6 +2,7 @@
 	<PropertyGroup>
 		<Authors>Biplov KC</Authors>
 		<OutputType>Library</OutputType>
+		<Title>Serilog logging</Title>
 		<PackageId>Biplov.Serilog</PackageId>
 		<PackageProjectUrl>https://github.com/biplovkc/event-bus-rabbitmq</PackageProjectUrl>
 		<PackageTags>Biplov;BiplovKC;Serilog;Logging;</PackageTags>
@@ -11,17 +12,31 @@
 		<Description>Registers serilog with custom correlationid middleware and httpcontext extensions</Description>
 		<LangVersion>latest</LangVersion>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<DebugSymbols>true</DebugSymbols>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<!-- Publish the repository URL in the built .nupkg (in the NuSpec <Repository> element) -->
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+
+		<!-- Embed source files that are not tracked by the source control manager in the PDB -->
+		<EmbedUntrackedSources>true</EmbedUntrackedSources>
+
+		<!-- Recommended: Embed symbols containing Source Link in the main file (exe/dll) -->
+		<DebugType>embedded</DebugType>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	</PropertyGroup>
 
 	<PropertyGroup>
 		<PackageLicenseFile>LICENSE</PackageLicenseFile>
 	</PropertyGroup>
-
+    <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
+		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
+	</PropertyGroup>
 	<ItemGroup>
-		<None Include="..\LICENSE" Pack="true" PackagePath=""/>
+		<None Include="../README.md" Pack="true" PackagePath="."/>
 	</ItemGroup>
-
 	<ItemGroup>
+		<PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
 		<PackageReference Include="murmurhash" Version="1.0.3" />
 		<PackageReference Include="Serilog.AspNetCore" Version="6.1.0" />
 		<PackageReference Include="Serilog.Enrichers.AssemblyName" Version="1.0.9" />

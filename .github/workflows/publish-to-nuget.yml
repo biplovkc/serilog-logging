@@ -55,6 +55,7 @@ jobs:
 
       - name: Create tag
         uses: actions/github-script@v5
+        if: ${{ always() }}
         with:
           script: |
             github.rest.git.createRef({
