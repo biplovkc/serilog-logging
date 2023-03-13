@@ -25,10 +25,6 @@
 		<DebugType>embedded</DebugType>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 	</PropertyGroup>
-
-	<PropertyGroup>
-		<PackageLicenseFile>LICENSE</PackageLicenseFile>
-	</PropertyGroup>
     <PropertyGroup Condition="'$(GITHUB_ACTIONS)' == 'true'">
 		<ContinuousIntegrationBuild>true</ContinuousIntegrationBuild>
 	</PropertyGroup>
