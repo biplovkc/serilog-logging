@@ -7,10 +7,10 @@ public static class LoggingServiceCollectionExtension
         var loggerConfig = new LoggerConfiguration()
             .ReadFrom.Configuration(configuration);
 
-        foreach(var overRide in overrides)
-        {
-            loggerConfig.MinimumLevel.Override(overRide.Key, overRide.Value);
-        }
+        if (overrides is not null)
+            foreach (var overRide in overrides)
+                loggerConfig.MinimumLevel.Override(overRide.Key, overRide.Value);
+        
         var logger = loggerConfig
             .Enrich.FromLogContext()
             .Enrich.WithAssemblyName()
