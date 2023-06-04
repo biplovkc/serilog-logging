@@ -21,14 +21,27 @@ public static class HttpContextEnricher
                 .GetMetadata<RouteNameMetadata>()?.RouteName
         };
         var userAgent = httpContext.Request.Headers?.FirstOrDefault(s => "user-agent".Equals(s.Key, StringComparison.OrdinalIgnoreCase)).Value;
-        httpContextInfo.UserAgent = userAgent is not null ? userAgent.ToString() : "";
-        // get a parser with the embedded regex patterns
-        var uaParser = Parser.GetDefault();
+        httpContextInfo.UserAgent = userAgent.ToString();
+       
 
         // get a parser using externally supplied yaml definitions
         // var uaParser = Parser.FromYaml(yamlString);
 
-        var clientInfo = uaParser.Parse(userAgent);
+        if (!string.IsNullOrWhiteSpace(httpContextInfo.UserAgent))
+        {
+            // get a parser with the embedded regex patterns
+            var uaParser = Parser.GetDefault();
+            var clientInfo = uaParser.Parse(httpContextInfo.UserAgent);
+
+            if (!string.IsNullOrWhiteSpace(clientInfo?.Device?.Family))
+                diagnosticContext.Set("Device", clientInfo.Device.Family);
+
+            if (!string.IsNullOrWhiteSpace(clientInfo?.OS?.Family))
+                diagnosticContext.Set("OperatingSystem", clientInfo.OS.Family);
+
+            if (!string.IsNullOrWhiteSpace(clientInfo?.UA?.Family))
+                diagnosticContext.Set("Browser", clientInfo.UA.Family);
+        }
 
         diagnosticContext.Set("Route", httpContextInfo.Route);
         diagnosticContext.Set("User", httpContextInfo.User);
@@ -36,14 +49,7 @@ public static class HttpContextEnricher
         diagnosticContext.Set("IpAddress", httpContextInfo.IpAddress);
         diagnosticContext.Set("Protocol", httpContextInfo.Protocol);
         diagnosticContext.Set("Scheme", httpContextInfo.Scheme);
-        if (!string.IsNullOrWhiteSpace(clientInfo?.Device?.Family))
-            diagnosticContext.Set("Device", clientInfo.Device.Family);
         
-        if (!string.IsNullOrWhiteSpace(clientInfo?.OS?.Family))
-            diagnosticContext.Set("OperatingSystem", clientInfo.OS.Family);
-
-        if (!string.IsNullOrWhiteSpace(clientInfo?.UA?.Family))
-            diagnosticContext.Set("Browser", clientInfo.UA.Family);
     }
 
     private static string GetUserInfo(IPrincipal user) => user.Identity is { IsAuthenticated: true } ? user.Identity.Name : Environment.UserName;
