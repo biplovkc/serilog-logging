@@ -36,9 +36,14 @@ public static class HttpContextEnricher
         diagnosticContext.Set("IpAddress", httpContextInfo.IpAddress);
         diagnosticContext.Set("Protocol", httpContextInfo.Protocol);
         diagnosticContext.Set("Scheme", httpContextInfo.Scheme);
-        diagnosticContext.Set("Device", clientInfo.Device.Family);
-        diagnosticContext.Set("OperatingSystem", clientInfo.OS.Family);
-        diagnosticContext.Set("Browser", clientInfo.UA.Family);
+        if (!string.IsNullOrWhiteSpace(clientInfo?.Device?.Family))
+            diagnosticContext.Set("Device", clientInfo.Device.Family);
+        
+        if (!string.IsNullOrWhiteSpace(clientInfo?.OS?.Family))
+            diagnosticContext.Set("OperatingSystem", clientInfo.OS.Family);
+
+        if (!string.IsNullOrWhiteSpace(clientInfo?.UA?.Family))
+            diagnosticContext.Set("Browser", clientInfo.UA.Family);
     }
 
     private static string GetUserInfo(IPrincipal user) => user.Identity is { IsAuthenticated: true } ? user.Identity.Name : Environment.UserName;
